@@ -130,4 +130,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _damage: 10
   _speed: 10
-  _direction: {x: 9.284386, y: 6.5552053, z: 8.427261}
+  _direction: {x: -6.774722, y: -0.081993386, z: 20.905067}
