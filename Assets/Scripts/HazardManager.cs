@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class HazardManager : MonoBehaviour
@@ -7,11 +6,12 @@ public class HazardManager : MonoBehaviour
     [SerializeField] private Bullet _bullet;
     [SerializeField] private float _minFireRate;
     [SerializeField] private float _maxFireRate;
-    private List<GameObject> _blobList;
+    private BlobManager _blobManager;
 
     void Start() {
-        _blobList = new List<GameObject>(GameObject.FindGameObjectsWithTag("Blob"));
-       
+        // Blob prefab won't let me drag BlobManager into SerializeField so to be consistent 
+        // I used Find() here aswell.
+        _blobManager = GameObject.Find("BlobManager").GetComponent<BlobManager>(); ;
         StartCoroutine(BulletCoroutine(new Vector3(1, 0, -20)));
     }
 
@@ -24,10 +24,9 @@ public class HazardManager : MonoBehaviour
         while (true) {
             float time = Random.Range(_minFireRate, _maxFireRate);
 
-            int index = Random.Range(0, _blobList.Count);
             yield return new WaitForSeconds(time);
-            _bullet.Direction = _blobList[index].transform.position - startPos;
-            Instantiate(_bullet, startPos, Quaternion.identity); 
+            _bullet.Direction = _blobManager.GetRandomBlobLocation() - startPos;
+            Instantiate(_bullet, startPos, Quaternion.identity);
         }
     }
 

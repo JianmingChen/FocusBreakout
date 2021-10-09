@@ -3,19 +3,23 @@ using UnityEngine;
 public class Blob : MonoBehaviour {
     [SerializeField] private int _health;
     [SerializeField] private float _speed;
+    private BlobManager _blobManager;
 
-    public bool IsPlayer { get; }
+    private void Start() {
+       _blobManager = GameObject.Find("BlobManager").GetComponent<BlobManager>();
+    }
 
     public void TakeDamage(int dmg) {
         _health -= dmg;
-        Debug.Log(_health);
         if (_health <= 0) {
             Die();
         }
     }
 
     protected virtual void Die() {
-        Debug.Log("Died");
+        _blobManager.RemoveBlob(this);
+        Debug.Log(name + " died");
+        Destroy(gameObject);
     }
 
     public int Health {
